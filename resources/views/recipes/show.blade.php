@@ -5,6 +5,10 @@
 @section('content')
 <h2>{{ $recipe->title }}</h2>
 
+@if($recipe->image)
+<img src="{{ $recipe->image }}" alt="{{ $recipe->title }}" style="max-width: 100%; height: auto; margin-bottom: 20px;">
+@endif
+
 <p><strong>Opis:</strong> {{ $recipe->description }}</p>
 <p><strong>Składniki:</strong> {{ $recipe->ingredients }}</p>
 <p><strong>Instrukcje:</strong> {{ $recipe->instructions }}</p>

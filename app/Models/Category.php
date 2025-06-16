@@ -10,4 +10,8 @@ class Category extends Model
     {
         return $this->belongsToMany(Recipe::class);
     }
+    public function getImageUrlAttribute()
+    {
+        return $this->image ? asset('storage/' . $this->image) : null;
+    }
 }

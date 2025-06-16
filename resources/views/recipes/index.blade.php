@@ -2,6 +2,11 @@
 
 @section('content')
 @foreach($recipes as $recipe)
-{{ $recipe->title }} <br>
+<div>
+    {{ $recipe->title }} <br>
+    <a href="/recipes/{{ $recipe->id }}">
+        <button>Zobacz przepis</button>
+    </a>
+</div>
 @endforeach
 @endsection

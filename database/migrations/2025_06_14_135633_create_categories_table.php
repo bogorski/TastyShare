@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id(); // Unikalny identyfikator kategorii
             $table->string('name')->unique(); // Nazwa kategorii (np. "Śniadanie", "Deser")
+            $table->string('image')->nullable();
             $table->timestamps(); // Daty utworzenia i ostatniej aktualizacji
         });
     }
