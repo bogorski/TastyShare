@@ -16,19 +16,34 @@
                 <a class="navbar-brand" href="{{ route('home') }}">Tasty Share</a>
 
                 <div class="collapse navbar-collapse" id="navbarButtons">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item me-2">
+                            <a href="{{ route('recipes.index') }}" class="nav-link">Wszystkie przepisy</a>
+                        </li>
+                        <li class="nav-item me-2">
+                            <a href="{{ route('categories.index') }}" class="nav-link">Kategorie</a>
+                        </li>
+                        <li class="nav-item me-2">
+                            <a href="{{ route('diettypes.index') }}" class="nav-link">Rodzaje diet</a>
+                        </li>
+                    </ul>
+
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         @guest
                         {{-- Dla niezalogowanych --}}
                         <li class="nav-item me-2">
-                            <a href="{{ route('register.show') }}" class="btn btn-outline-primary">Rejestracja</a>
+                            <a href="{{ route('register') }}" class="btn btn-outline-primary">Rejestracja</a>
                         </li>
                         <li class="nav-item me-2">
-                            <a href="{{ route('login.show') }}" class="btn btn-outline-secondary">Logowanie</a>
+                            <a href="{{ route('login') }}" class="btn btn-outline-secondary">Logowanie</a>
                         </li>
                         @endguest
 
                         @auth
                         {{-- Dla zalogowanych --}}
+                        <li class="nav-item me-2">
+                            <a href="{{ route('recipes.mine') }}" class="nav-link">Moje przepisy</a>
+                        </li>
                         <li class="nav-item me-2 d-flex align-items-center">
                             <span class="me-2">Witaj, {{ Auth::user()->name }}</span>
                         </li>
@@ -44,6 +59,7 @@
                         @endauth
                     </ul>
                 </div>
+
             </div>
         </nav>
 

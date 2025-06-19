@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
@@ -21,7 +22,7 @@ class RegisterController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:8|confirmed',
         ]);
 
         // Stwórz użytkownika
@@ -32,7 +33,8 @@ class RegisterController extends Controller
         ]);
 
         // Zaloguj użytkownika (opcjonalnie)
-        //auth()->login($user);
+        Auth::login($user);
+
 
         // Przekieruj gdzie chcesz, np. na home
         return redirect()->route('home')->with('success', 'Rejestracja zakończona sukcesem!');

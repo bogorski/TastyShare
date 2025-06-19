@@ -7,8 +7,18 @@ use App\Models\Category;
 
 class CategoryController extends Controller
 {
+    public function index()
+    {
+        $categories = Category::all();
+
+        return view('categories.index', compact('categories'));
+    }
+
     public function show(Category $category)
     {
-        return view('categories.index', compact('category'));
+        // Załóżmy, że pokazujesz kategorię z jej przepisami
+        $category->load('recipes'); // lub inne relacje
+
+        return view('categories.show', compact('category'));
     }
 }

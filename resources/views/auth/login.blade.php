@@ -3,7 +3,7 @@
 @section('content')
 <div class="container mt-5" style="max-width: 400px;">
     <h2>Logowanie</h2>
-    <form method="POST" action="{{ route('login.perform') }}">
+    <form method="POST" action="{{ route('login') }}">
         @csrf
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
@@ -27,6 +27,9 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Zaloguj się</button>
+        <div class="mt-3">
+            <a href="{{ route('password.request') }}">Zapomniałeś hasła?</a>
+        </div>
     </form>
 </div>
 @endsection

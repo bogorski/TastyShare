@@ -1,16 +1,49 @@
 @extends('layouts.app')
 
 @section('content')
+
+@if(session('success'))
+<div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ session('success') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<script>
+    // Po 5 sekundach ukryj alert
+    setTimeout(() => {
+        const alert = document.getElementById('success-alert');
+        if (alert) {
+            // Bootstrap 5 - usuń klasę 'show' żeby zacząć animację znikania
+            alert.classList.remove('show');
+            // Po animacji usuń element z DOM
+            setTimeout(() => alert.remove(), 150);
+        }
+    }, 5000);
+</script>
+@endif
+
 <div id="basicCarousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
-        @foreach($categories as $index => $category)
+        @foreach($latestRecipes->chunk(3) as $index => $recipeChunk)
         <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-            <a href="{{ route('categories.show', $category->id) }}" class="text-decoration-none">
-                <img src="{{ $category->image_url }}" class="d-block w-100" alt="{{ $category->name }}" style="height: 300px; object-fit: cover;">
-                <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded">
-                    <h5>{{ $category->name }}</h5>
+            <div class="row">
+                @foreach($recipeChunk as $recipe)
+                <div class="col-12 col-md-4 mb-3">
+                    <a href="{{ route('recipes.show', $recipe->id) }}" class="text-decoration-none">
+                        <div class="card h-100 text-white position-relative" style="height: 150px; overflow: hidden;">
+                            @if($recipe->image)
+                            <img src="{{ $recipe->image }}" class="card-img" alt="{{ $recipe->title }}" style="object-fit: cover; height: 150px;">
+                            @else
+                            <img src="{{ asset('images/default-recipe.jpg') }}" class="card-img" alt="{{ $recipe->title }}" style="object-fit: cover; height: 150px;">
+                            @endif
+                            <div class="card-img-overlay d-flex justify-content-center align-items-center" style="background: rgba(0,0,0,0.4);">
+                                <h5 class="card-title text-center">{{ $recipe->title }}</h5>
+                            </div>
+                        </div>
+                    </a>
                 </div>
-            </a>
+                @endforeach
+            </div>
         </div>
         @endforeach
     </div>
