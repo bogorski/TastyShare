@@ -42,4 +42,16 @@ class Recipe extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
+
+    public function ingredients()
+    {
+        return $this->belongsToMany(Ingredient::class)
+            ->withPivot('quantity', 'unit', 'is_visible')
+            ->withTimestamps();
+    }
 }

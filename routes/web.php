@@ -10,6 +10,8 @@ use App\Http\Controllers\PasswordResetLinkController;
 use App\Http\Controllers\NewPasswordController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DietTypeController;
+use App\Http\Controllers\RatingController;
+use App\Http\Controllers\IngredientController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/diet-types', [DietTypeController::class, 'index'])->name('diettypes.index');
@@ -64,3 +66,21 @@ Route::middleware('auth')->group(function () {
     Route::put('/recipes/{recipe}', [RecipeController::class, 'update'])->name('recipes.update');
     Route::delete('/recipes/{recipe}', [RecipeController::class, 'destroy'])->name('recipes.destroy');
 });
+Route::middleware('auth')->group(function () {
+    Route::get('/comments/mine', [CommentController::class, 'myComments'])->name('comments.mine');
+});
+Route::middleware('auth')->group(function () {
+    Route::post('/recipes/{recipe}/ratings', [RatingController::class, 'store'])
+        ->name('ratings.store');
+    Route::get('/ratings/{rating}/edit', [RatingController::class, 'edit'])
+        ->name('ratings.edit');
+    Route::put('/ratings/{rating}', [RatingController::class, 'update'])
+        ->name('ratings.update');
+    Route::delete('/ratings/{rating}', [RatingController::class, 'destroy'])
+        ->name('ratings.destroy');
+});
+// Lista składników
+Route::get('/ingredients', [IngredientController::class, 'index'])->name('ingredients.index');
+
+// Przepisy z konkretnym składnikiem
+Route::get('/ingredients/{ingredient}', [IngredientController::class, 'show'])->name('ingredients.show');

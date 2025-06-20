@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('diet_type_recipe', function (Blueprint $table) {
             $table->foreignId('recipe_id')->constrained()->onDelete('cascade');
             $table->foreignId('diet_type_id')->constrained()->onDelete('cascade');
+
             $table->primary(['recipe_id', 'diet_type_id']);
             $table->timestamps();
         });

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id(); // Unikalny identyfikator kategorii
             $table->string('name')->unique(); // Nazwa kategorii (np. "Śniadanie", "Deser")
             $table->string('image')->nullable();
+            $table->boolean('is_visible')->default(true);
             $table->timestamps(); // Daty utworzenia i ostatniej aktualizacji
         });
     }

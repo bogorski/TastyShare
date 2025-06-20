@@ -26,6 +26,9 @@
                         <li class="nav-item me-2">
                             <a href="{{ route('diettypes.index') }}" class="nav-link">Rodzaje diet</a>
                         </li>
+                        <li class="nav-item me-2">
+                            <a href="{{ route('ingredients.index') }}" class="nav-link">Składniki</a>
+                        </li>
                     </ul>
 
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -43,6 +46,9 @@
                         {{-- Dla zalogowanych --}}
                         <li class="nav-item me-2">
                             <a href="{{ route('recipes.mine') }}" class="nav-link">Moje przepisy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('comments.mine') }}" class="nav-link">Moje komentarze</a>
                         </li>
                         <li class="nav-item me-2 d-flex align-items-center">
                             <span class="me-2">Witaj, {{ Auth::user()->name }}</span>

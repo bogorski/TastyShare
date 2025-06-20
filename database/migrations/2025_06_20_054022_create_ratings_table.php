@@ -11,13 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comments', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+        Schema::create('ratings', function (Blueprint $table) {
+            $table->id(); // Tworzy kolumnę `id` jako primary key
             $table->foreignId('recipe_id')->constrained()->onDelete('cascade');
-            $table->text('comment');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->tinyInteger('rating');
             $table->boolean('is_visible')->default(true);
             $table->timestamps();
+
+            //unikalny indeks, aby użytkownik mógł ocenić przepis tylko raz
+            $table->unique(['recipe_id', 'user_id']);
         });
     }
 
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists('ratings');
     }
 };

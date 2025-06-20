@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Models\Recipe;
 use App\Models\Comment;
+use Illuminate\Support\Facades\Auth;
 
 
 class CommentController extends Controller
@@ -14,20 +15,12 @@ class CommentController extends Controller
     public function store(Request $request, Recipe $recipe)
     {
         $request->validate([
-            'content' => 'required|string',
-            'rating' => 'nullable|integer|min:1|max:5',
+            'comment' => 'required|string',
         ]);
-
-        // Sprawdź czy użytkownik już dodał komentarz
-        $existingComment = $recipe->comments()->where('user_id', auth()->id())->first();
-        if ($existingComment) {
-            return redirect()->back()->with('error', 'Możesz dodać tylko jeden komentarz do danego przepisu.');
-        }
 
         $recipe->comments()->create([
             'user_id' => auth()->id(),
-            'content' => $request->input('content'),
-            'rating' => $request->input('rating'),
+            'comment' => $request->input('comment'),
         ]);
 
         return redirect()->back()->with('success', 'Dziękujemy za komentarz!');
@@ -49,13 +42,11 @@ class CommentController extends Controller
         }
 
         $request->validate([
-            'content' => 'required|string|max:1000',
-            'rating' => 'nullable|integer|min:1|max:5',
+            'comment' => 'required|string|max:1000',
         ]);
 
         $comment->update([
-            'content' => $request->content,
-            'rating' => $request->rating,
+            'comment' => $request->comment,
         ]);
 
         return redirect()->route('recipes.show', $comment->recipe_id)->with('success', 'Komentarz został zaktualizowany.');
@@ -73,5 +64,18 @@ class CommentController extends Controller
 
         return redirect()->route('recipes.show', $recipeId)
             ->with('success', 'Komentarz został usunięty.');
+    }
+    public function myComments()
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            abort(403, 'Dostęp zabroniony.');
+        }
+
+        // Pobierz komentarze zalogowanego użytkownika z powiązanym przepisem
+        $comments = $user->comments()->with('recipe')->latest()->paginate(10);
+
+        return view('comments.mine', compact('comments'));
     }
 }

@@ -110,7 +110,7 @@
                     <p class="mb-1">
                         <strong>Średnia ocena:</strong>
                         @php
-                        $avgRating = $recipe->comments->avg('rating');
+                        $avgRating = $recipe->ratings_avg_rating;
                         @endphp
                         {{ $avgRating ? number_format($avgRating, 1) . ' ★' : 'Brak ocen' }}
                     </p>
