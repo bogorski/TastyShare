@@ -20,7 +20,8 @@ class Recipe extends Model
         'user_id',
         'recipe_id',
         'content',
-        'rating'
+        'rating',
+        'is_visible'
     ];
 
     public function categories()
@@ -40,7 +41,7 @@ class Recipe extends Model
 
     public function comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class)->where('is_visible', true);
     }
 
     public function ratings()

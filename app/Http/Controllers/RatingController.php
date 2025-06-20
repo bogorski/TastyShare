@@ -64,10 +64,10 @@ class RatingController extends Controller
             abort(403, 'To działanie jest niedozwolone.');
         }
 
-        $recipeId = $rating->recipe_id;
-        $rating->delete();
+        $rating->is_visible = false;
+        $rating->save();
 
-        return redirect()->route('recipes.show', $recipeId)
+        return redirect()->route('recipes.show', $rating->recipe_id)
             ->with('success', 'Ocena została usunięta.');
     }
 }

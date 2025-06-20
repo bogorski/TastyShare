@@ -2,10 +2,10 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Tasty Share</title>
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />
 </head>
 
 <body>
@@ -42,16 +42,22 @@
                         </li>
                         @endguest
 
+                        @admin
+                        <li class="nav-item me-2">
+                            <a href="{{ route('admin.dashboard') }}" class="nav-link">Panel admina</a>
+                        </li>
+                        @endadmin
+
                         @auth
                         {{-- Dla zalogowanych --}}
                         <li class="nav-item me-2">
                             <a href="{{ route('recipes.mine') }}" class="nav-link">Moje przepisy</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item me-2">
                             <a href="{{ route('comments.mine') }}" class="nav-link">Moje komentarze</a>
                         </li>
                         <li class="nav-item me-2 d-flex align-items-center">
-                            <span class="me-2">Witaj, {{ Auth::user()->name }}</span>
+                            <span>Witaj, {{ Auth::user()->name }}</span>
                         </li>
                         <li class="nav-item me-2">
                             <a href="{{ route('recipes.create') }}" class="btn btn-outline-success">Dodaj przepis</a>
@@ -65,7 +71,6 @@
                         @endauth
                     </ul>
                 </div>
-
             </div>
         </nav>
 
@@ -79,6 +84,7 @@
             <small>&copy; {{ date('Y') }} Tasty Share. Wszelkie prawa zastrzeżone.</small>
         </footer>
     </div>
+
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
 </body>
 

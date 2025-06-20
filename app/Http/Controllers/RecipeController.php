@@ -25,7 +25,10 @@ class RecipeController extends Controller
         $minRating = $request->input('min_rating');
 
         $query = Recipe::with(['user', 'categories', 'dietTypes'])
-            ->withAvg('ratings', 'rating');
+            ->withAvg(['ratings' => function ($q) {
+                $q->where('is_visible', true);
+            }], 'rating')
+            ->where('is_visible', true);
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -212,8 +215,6 @@ class RecipeController extends Controller
             'diet_types.*' => 'exists:diet_types,id',
         ]);
 
-
-
         // Obsługa zdjęcia
         if ($request->hasFile('image')) {
             // Usuń stare zdjęcie jeśli istnieje
@@ -259,23 +260,16 @@ class RecipeController extends Controller
 
     public function destroy(Recipe $recipe)
     {
-        // Tylko autor może usunąć przepis
-        if ($recipe->user_id !== auth()->id()) {
-            abort(403, 'Brak uprawnień.');
+        // Sprawdzenie, czy użytkownik jest autorem
+        if (auth()->id() !== $recipe->user_id) {
+            abort(403, 'To działanie jest niedozwolone.');
         }
 
-        // Jeśli przepis ma zdjęcie – usuń plik
-        if ($recipe->image && file_exists(public_path($recipe->image))) {
-            unlink(public_path($recipe->image));
-        }
+        // Ustaw is_visible na false
+        $recipe->is_visible = false;
+        $recipe->save();
 
-        // Odłącz relacje wiele-do-wielu
-        $recipe->categories()->detach();
-        $recipe->dietTypes()->detach();
-
-        // Usuń przepis
-        $recipe->delete();
-
-        return redirect()->route('recipes.mine')->with('success', 'Przepis został usunięty.');
+        return redirect()->route('recipes.mine')
+            ->with('success', 'Przepis został ukryty.');
     }
 }

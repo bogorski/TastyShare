@@ -54,17 +54,21 @@ class CommentController extends Controller
 
     public function destroy(Comment $comment)
     {
-        // upewnij się, że to autor komentarza
+        // Sprawdzenie, czy to autor komentarza
         if (auth()->id() !== $comment->user_id) {
             abort(403, 'To działanie jest niedozwolone.');
         }
 
         $recipeId = $comment->recipe_id;
-        $comment->delete();
+
+        // Ukrywamy komentarz zamiast usuwać
+        $comment->is_visible = false;
+        $comment->save();
 
         return redirect()->route('recipes.show', $recipeId)
             ->with('success', 'Komentarz został usunięty.');
     }
+
     public function myComments()
     {
         $user = Auth::user();
@@ -74,7 +78,11 @@ class CommentController extends Controller
         }
 
         // Pobierz komentarze zalogowanego użytkownika z powiązanym przepisem
-        $comments = $user->comments()->with('recipe')->latest()->paginate(10);
+        $comments = $user->comments()
+            ->where('is_visible', true)
+            ->with('recipe')
+            ->latest()
+            ->paginate(10);
 
         return view('comments.mine', compact('comments'));
     }

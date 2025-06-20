@@ -7,7 +7,7 @@
     @foreach ($ingredients as $ingredient)
     <li>
         <a href="{{ route('ingredients.show', $ingredient->id) }}">
-            {{ $ingredient->nazwa }}
+            {{ $ingredient->name }}
         </a>
     </li>
     @endforeach

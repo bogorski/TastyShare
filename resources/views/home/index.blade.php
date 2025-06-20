@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-
+@admin
+<p>To widzi tylko admin!</p>
+@endadmin
 @if(session('success'))
 <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
     {{ session('success') }}

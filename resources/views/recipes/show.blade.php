@@ -22,7 +22,7 @@
 <ul>
     @foreach($recipe->ingredients as $ingredient)
     <li>
-        {{ $ingredient->nazwa }}:
+        {{ $ingredient->name }}:
         {{ $ingredient->pivot->quantity }}
         {{ $ingredient->pivot->unit }}
     </li>

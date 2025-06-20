@@ -16,8 +16,9 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
-        // Załóżmy, że pokazujesz kategorię z jej przepisami
-        $category->load('recipes'); // lub inne relacje
+        $category->load(['recipes' => function ($query) {
+            $query->where('is_visible', true);
+        }]);
 
         return view('categories.show', compact('category'));
     }
