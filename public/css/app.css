@@ -1,0 +1,147 @@
+:root {
+    --primary-color: #a9746e; /* ciepły brąz */
+    --secondary-color: #d9b4aa; /* łagodny róż */
+    --highlight-color: #a898d1; /* pastelowy fiolet */
+    --background-color: #faf3e0; /* kremowe tło */
+    --card-bg: #ffffff; /* białe karty */
+    --text-color: #6b4c3b; /* ciemny brąz */
+    --text-muted: #8c7a75; /* zgaszony brąz */
+}
+
+/* Body - kremowe tło i ciemny tekst */
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Karty */
+.card {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(171, 135, 124, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 30px rgba(169, 145, 148, 0.3);
+}
+
+/* Obraz w karcie */
+.card-img,
+.card-img-top {
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    object-fit: cover;
+    height: 180px;
+    width: 100%;
+    transition: filter 0.3s ease;
+}
+
+.card:hover .card-img,
+.card:hover .card-img-top {
+    filter: brightness(1.05);
+}
+
+/* Tytuły */
+.card-title {
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.card-title:hover {
+    color: var(--highlight-color);
+    cursor: pointer;
+}
+
+/* Tekst pomocniczy */
+.text-muted {
+    color: var(--text-muted) !important;
+    font-style: italic;
+}
+
+/* Przyciski */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--highlight-color);
+    border-color: var(--highlight-color);
+    color: var(--card-bg);
+}
+
+/* Nakładka na obraz w karuzeli */
+.card-img-overlay {
+    background: rgba(169, 116, 110, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+}
+
+.carousel .carousel-item .card-img-overlay h5 {
+    color: #fff;
+    font-weight: 700;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+}
+
+/* Komentarze */
+.card-text {
+    font-style: italic;
+    color: var(--text-muted);
+}
+
+/* Przyciski nawigacji karuzeli */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    filter: drop-shadow(0 0 3px rgba(169, 116, 110, 0.7));
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+/* Placeholder dla brakujących zdjęć */
+.bg-secondary {
+    background-color: var(--primary-color) !important;
+    color: var(--card-bg) !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+/* Navbar style */
+.navbar {
+    background-color: var(--card-bg) !important;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+/* Linki w navbar */
+.navbar .nav-link {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link:focus {
+    color: var(--highlight-color);
+}
+
+/* Alert success */
+.alert-success {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    border: none;
+}
+
+/* Stopka */
+footer {
+    color: var(--text-muted);
+    font-style: italic;
+}

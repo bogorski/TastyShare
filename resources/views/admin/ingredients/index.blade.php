@@ -7,6 +7,13 @@
         <h1>Składniki</h1>
         <a href="{{ route('admin.ingredients.create') }}" class="btn btn-success">Dodaj składnik</a>
     </div>
+    <form action="{{ route('admin.ingredients.index') }}" method="GET" class="mb-3">
+        <div class="input-group">
+            <input type="text" name="search" value="{{ old('search', $search) }}" class="form-control"
+                placeholder="Wyszukaj składnik...">
+            <button type="submit" class="btn btn-primary">Szukaj</button>
+        </div>
+    </form>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -38,7 +45,6 @@
             @endforeach
         </tbody>
     </table>
-    {{ $ingredients->links() }}
 </div>
 @endsection
 @endadmin

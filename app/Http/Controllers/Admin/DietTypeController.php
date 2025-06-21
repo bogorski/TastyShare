@@ -8,10 +8,15 @@ use Illuminate\Http\Request;
 
 class DietTypeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $dietTypes = DietType::paginate(15);
-        return view('admin.dietTypes.index', compact('dietTypes'));
+        $search = $request->input('search');
+
+        $dietTypes = DietType::when($search, function ($query, $search) {
+            $query->where('name', 'like', '%' . $search . '%');
+        })->paginate(15);
+
+        return view('admin.dietTypes.index', compact('dietTypes', 'search'));
     }
 
     public function create()

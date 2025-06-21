@@ -4,6 +4,13 @@
 @section('content')
 <div class="container">
     <h1>Komentarze</h1>
+    <form action="{{ route('admin.comments.index') }}" method="GET" class="mb-3">
+        <div class="input-group">
+            <input type="text" name="search" value="{{ request('search') }}" class="form-control"
+                placeholder="Wyszukaj po użytkowniku, przepisie lub komentarzu...">
+            <button class="btn btn-primary" type="submit">Szukaj</button>
+        </div>
+    </form>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -45,7 +52,7 @@
             @endforeach
         </tbody>
     </table>
-    {{ $comments->links() }}
+    {{ $comments->appends(['search' => request('search')])->links() }}
 </div>
 @endsection
 @endadmin

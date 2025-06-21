@@ -9,10 +9,18 @@ use Illuminate\Http\Request;
 
 class IngredientController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $ingredients = Ingredient::paginate(15);
-        return view('admin.ingredients.index', compact('ingredients'));
+        $search = $request->query('search');
+
+        $ingredients = Ingredient::where('is_visible', true)
+            ->when($search, function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%');
+            })
+            ->orderBy('name')
+            ->get();
+
+        return view('admin.ingredients.index', compact('ingredients', 'search'));
     }
 
     public function create()

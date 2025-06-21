@@ -8,12 +8,19 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::paginate(15);
+        $query = Category::query();
+
+        if ($request->has('search')) {
+            $search = $request->get('search');
+            $query->where('name', 'like', '%' . $search . '%');
+        }
+
+        $categories = $query->paginate(15);
+
         return view('admin.categories.index', compact('categories'));
     }
-
     public function create()
     {
         return view('admin.categories.create');

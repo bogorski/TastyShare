@@ -8,10 +8,22 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::paginate(15); // pobierz użytkowników z paginacją
-        return view('admin.users.index', compact('users'));
+        $search = $request->input('search');
+
+        $users = User::query()
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%");
+                });
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(15)
+            ->appends(['search' => $search]);
+
+        return view('admin.users.index', compact('users', 'search'));
     }
 
     public function edit(User $user)
@@ -39,6 +51,6 @@ class UserController extends Controller
         $user->is_visible = false;
         $user->save();
 
-        return redirect()->route('admin.recipes.index')->with('success', 'Przepis został ukryty.');
+        return redirect()->route('admin.users.index')->with('success', 'Przepis został ukryty.');
     }
 }

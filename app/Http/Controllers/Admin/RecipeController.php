@@ -11,9 +11,51 @@ use Illuminate\Http\Request;
 
 class RecipeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $recipes = Recipe::paginate(15);
+        $query = Recipe::with(['user', 'ingredients']);
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $filter = $request->input('filter', 'all');
+
+            $query->where(function ($q) use ($search, $filter) {
+                switch ($filter) {
+                    case 'title':
+                        $q->where('title', 'like', "%{$search}%");
+                        break;
+                    case 'description':
+                        $q->where('description', 'like', "%{$search}%");
+                        break;
+                    case 'instructions':
+                        $q->where('instructions', 'like', "%{$search}%");
+                        break;
+                    case 'author':
+                        $q->whereHas('user', function ($q) use ($search) {
+                            $q->where('name', 'like', "%{$search}%");
+                        });
+                        break;
+                    case 'ingredient':
+                        $q->whereHas('ingredients', function ($q) use ($search) {
+                            $q->where('name', 'like', "%{$search}%");
+                        });
+                        break;
+                    default: // "all"
+                        $q->where('title', 'like', "%{$search}%")
+                            ->orWhere('description', 'like', "%{$search}%")
+                            ->orWhere('instructions', 'like', "%{$search}%")
+                            ->orWhereHas('user', function ($q) use ($search) {
+                                $q->where('name', 'like', "%{$search}%");
+                            })
+                            ->orWhereHas('ingredients', function ($q) use ($search) {
+                                $q->where('name', 'like', "%{$search}%");
+                            });
+                }
+            });
+        }
+
+        $recipes = $query->paginate(15)->withQueryString();
+
         return view('admin.recipes.index', compact('recipes'));
     }
 
@@ -42,7 +84,7 @@ class RecipeController extends Controller
             'image' => 'nullable|image|max:2048',
             'categories' => 'required|array',
             'categories.*' => 'exists:categories,id',
-            'diet_types' => 'nullable|array',
+            'diet_types' => 'required|array',
             'diet_types.*' => 'exists:diet_types,id',
         ]);
 

@@ -7,6 +7,13 @@
         <h1>Rodzeje diet</h1>
         <a href="{{ route('admin.dietTypes.create') }}" class="btn btn-success">Dodaj dietę</a>
     </div>
+    <form action="{{ route('admin.dietTypes.index') }}" method="GET" class="mb-3">
+        <div class="input-group">
+            <input type="text" name="search" value="{{ request('search') }}" class="form-control"
+                placeholder="Wyszukaj nazwę diety...">
+            <button class="btn btn-primary" type="submit">Szukaj</button>
+        </div>
+    </form>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -46,7 +53,7 @@
             @endforeach
         </tbody>
     </table>
-    {{ $dietTypes->links() }}
+    {{ $dietTypes->appends(['search' => request('search')])->links() }}
 </div>
 @endsection
 @endadmin

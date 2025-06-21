@@ -8,10 +8,21 @@ use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $comments = Comment::with('user', 'recipe')->paginate(15);
-        return view('admin.comments.index', compact('comments'));
+        $search = $request->input('search');
+
+        $comments = Comment::with(['user', 'recipe'])
+            ->when($search, function ($query, $search) {
+                $query->whereHas('user', function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%');
+                })->orWhereHas('recipe', function ($q) use ($search) {
+                    $q->where('title', 'like', '%' . $search . '%');
+                })->orWhere('comment', 'like', '%' . $search . '%');
+            })
+            ->paginate(15);
+
+        return view('admin.comments.index', compact('comments', 'search'));
     }
 
     public function edit(Comment $comment)

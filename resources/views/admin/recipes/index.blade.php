@@ -3,7 +3,23 @@
 @admin
 @section('content')
 <div class="container">
-    <h1>Przepisy</h1>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Przepisy</h1>
+        <form action="{{ route('admin.recipes.index') }}" method="GET" class="d-flex gap-2 align-items-center mb-3" style="flex-wrap: wrap;">
+            <select name="filter" class="form-select w-auto">
+                <option value="all" {{ request('filter') == 'all' ? 'selected' : '' }}>Wszystko</option>
+                <option value="title" {{ request('filter') == 'title' ? 'selected' : '' }}>Tytuł</option>
+                <option value="description" {{ request('filter') == 'description' ? 'selected' : '' }}>Opis</option>
+                <option value="instructions" {{ request('filter') == 'instructions' ? 'selected' : '' }}>Instrukcje</option>
+                <option value="author" {{ request('filter') == 'author' ? 'selected' : '' }}>Autor</option>
+                <option value="ingredient" {{ request('filter') == 'ingredient' ? 'selected' : '' }}>Składnik</option>
+            </select>
+
+            <input type="text" name="search" value="{{ request('search') }}" class="form-control w-auto" placeholder="Wpisz frazę...">
+
+            <button type="submit" class="btn btn-outline-primary">Szukaj</button>
+        </form>
+    </div>
     <table class="table table-striped align-middle">
         <thead>
             <tr>
@@ -66,7 +82,7 @@
         </tbody>
     </table>
 
-    {{ $recipes->links() }}
+    {{ $recipes->appends(['search' => request('search')])->links() }}
 </div>
 @endsection
 @endadmin

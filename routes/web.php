@@ -41,8 +41,7 @@ Route::post('/login', [LoginController::class, 'login'])->name('login');
 
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/ingredients', [IngredientController::class, 'index'])->name('ingredients.index');
-Route::get('/ingredients/{ingredient}', [IngredientController::class, 'show'])->name('ingredients.show');
+Route::resource('ingredients', \App\Http\Controllers\IngredientController::class)->only(['index', 'show', 'create', 'store']);
 
 Route::middleware('guest')->group(function () {
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
