@@ -41,7 +41,7 @@
                         @foreach ($ingredients as $ing)
                         <!-- Opcja jest zaznaczona jeśli id składnika zgadza się z tym z old() -->
                         <option value="{{ $ing->id }}" @selected($ing->id == $ingredient['ingredient_id'])>
-                            {{ $ing->nazwa }}
+                            {{ $ing->name }}
                         </option>
                         @endforeach
                     </select>
@@ -155,7 +155,7 @@
             <select name="ingredients[${ingredientIndex}][ingredient_id]" class="form-select" required>
                 <option value="">-- Wybierz składnik --</option>
                 @foreach ($ingredients as $ingredient)
-                    <option value="{{ $ingredient->id }}">{{ $ingredient->nazwa }}</option>
+                    <option value="{{ $ingredient->id }}">{{ $ingredient->name }}</option>
                 @endforeach
             </select>
             <input type="text" name="ingredients[${ingredientIndex}][quantity]" placeholder="Ilość" class="form-control" required>

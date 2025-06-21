@@ -1,7 +1,5 @@
 @extends('layouts.app')
 
-@section('title', 'Edytuj przepis: ' . $recipe->title)
-
 @section('content')
 <h2>Edytuj przepis</h2>
 
@@ -62,9 +60,8 @@
             </div>
             @endif
         </div>
+        <button type="button" id="add-ingredient" class="btn btn-success mb-3">Dodaj składnik</button>
     </div>
-
-    <button type="button" id="add-ingredient" class="btn btn-success mb-3">Dodaj składnik</button>
 
     {{-- Instrukcje --}}
     <div class="mb-3">
@@ -90,7 +87,6 @@
     <div class="mb-3">
         <label for="image" class="form-label">Zmień zdjęcie</label>
         <input type="file" name="image" id="image" class="form-control">
-
     </div>
 
     {{-- Kategorie --}}

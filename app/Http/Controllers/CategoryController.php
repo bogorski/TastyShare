@@ -9,7 +9,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::where('is_visible', true)->get();
 
         return view('categories.index', compact('categories'));
     }

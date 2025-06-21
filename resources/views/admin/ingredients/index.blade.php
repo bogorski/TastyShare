@@ -3,7 +3,10 @@
 @admin
 @section('content')
 <div class="container">
-    <h1>Składniki</h1>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Składniki</h1>
+        <a href="{{ route('admin.ingredients.create') }}" class="btn btn-success">Dodaj składnik</a>
+    </div>
     <table class="table table-striped">
         <thead>
             <tr>

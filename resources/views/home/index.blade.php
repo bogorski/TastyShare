@@ -1,28 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-@admin
-<p>To widzi tylko admin!</p>
-@endadmin
-@if(session('success'))
-<div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
-    {{ session('success') }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-
-<script>
-    // Po 5 sekundach ukryj alert
-    setTimeout(() => {
-        const alert = document.getElementById('success-alert');
-        if (alert) {
-            // Bootstrap 5 - usuń klasę 'show' żeby zacząć animację znikania
-            alert.classList.remove('show');
-            // Po animacji usuń element z DOM
-            setTimeout(() => alert.remove(), 150);
-        }
-    }, 5000);
-</script>
-@endif
 <h2 class="mb-4 text-center">Najnowsze przepisy</h2>
 <div id="basicCarousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">

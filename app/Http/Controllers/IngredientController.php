@@ -15,13 +15,13 @@ class IngredientController extends Controller
 
     public function show(Ingredient $ingredient)
     {
-        // Załaduj przepisy, które zawierają ten składnik
         $recipes = $ingredient->recipes()
-            ->where('is_visible', true)
+            ->where('recipes.is_visible', true)
             ->with(['ingredients' => function ($query) {
-                $query->where('is_visible', true);
+                $query->where('ingredients.is_visible', true);
             }])
             ->paginate(10);
+
         return view('ingredients.show', compact('ingredient', 'recipes'));
     }
 }

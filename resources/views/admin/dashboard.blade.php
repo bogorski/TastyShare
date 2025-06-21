@@ -11,6 +11,7 @@
         <li><a href="{{ route('admin.recipes.index') }}">Przepisy</a></li>
         <li><a href="{{ route('admin.comments.index') }}">Komentarze</a></li>
         <li><a href="{{ route('admin.categories.index') }}">Kategorie</a></li>
+        <li><a href="{{ route('admin.dietTypes.index') }}">Rodzaje diet</a></li>
         <li><a href="{{ route('admin.ingredients.index') }}">Składniki</a></li>
         <li><a href="{{ route('home') }}">Powrót do strony głównej</a></li>
     </ul>

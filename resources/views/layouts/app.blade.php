@@ -76,6 +76,25 @@
 
         {{-- Główna zawartość strony --}}
         <main class="flex-grow-1">
+            @if(session('success'))
+            <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <script>
+                // Po 5 sekundach ukryj alert
+                setTimeout(() => {
+                    const alert = document.getElementById('success-alert');
+                    if (alert) {
+                        // Bootstrap 5 - usuń klasę 'show' żeby zacząć animację znikania
+                        alert.classList.remove('show');
+                        // Po animacji usuń element z DOM
+                        setTimeout(() => alert.remove(), 150);
+                    }
+                }, 5000);
+            </script>
+            @endif
             @yield('content')
         </main>
 

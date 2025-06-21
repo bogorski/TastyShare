@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Recipe;
+use App\Models\Category;
+use App\Models\DietType;
 use App\Models\Ingredient;
 use Illuminate\Http\Request;
 
@@ -15,9 +17,72 @@ class RecipeController extends Controller
         return view('admin.recipes.index', compact('recipes'));
     }
 
+    public function create()
+    {
+        $categories = Category::all();
+        $dietTypes = DietType::all();
+        $ingredients = Ingredient::all();
+
+        return view('recipes.create', compact('categories', 'dietTypes', 'ingredients'));
+    }
+
+    // Zapisz przepis do bazy
+    public function store(Request $request)
+    {
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'ingredients' => ['required', 'array', 'unique_ingredients'],
+            'ingredients.*.ingredient_id' => 'required|exists:ingredients,id',
+            'ingredients.*.quantity' => 'required|string|max:50',
+            'ingredients.*.unit' => 'required|string|max:20',
+            'instructions' => 'required|string',
+            'preparation_time' => 'required|integer|min:0',
+            'image' => 'nullable|image|max:2048',
+            'categories' => 'required|array',
+            'categories.*' => 'exists:categories,id',
+            'diet_types' => 'nullable|array',
+            'diet_types.*' => 'exists:diet_types,id',
+        ]);
+
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('image/recipes', 'public');
+        }
+
+        $recipe = new Recipe();
+        $recipe->title = $validated['title'];
+        $recipe->description = $validated['description'] ?? null;
+        $recipe->instructions = $validated['instructions'] ?? null;
+        $recipe->preparation_time = $validated['preparation_time'] ?? null;
+        $recipe->image = $imagePath ? '/storage/' . $imagePath : null;
+        $recipe->user_id = auth()->id();
+        $recipe->save();
+
+        // Podłącz kategorie i typy diety
+        $recipe->categories()->sync($validated['categories']);
+        $recipe->dietTypes()->sync($validated['diet_types']);
+
+
+        foreach ($validated['ingredients'] as $ingredient) {
+            $recipe->ingredients()->attach($ingredient['ingredient_id'], [
+                'quantity' => $ingredient['quantity'],
+                'unit' => $ingredient['unit'],
+                'is_visible' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+
+        return redirect()->route('recipes.show', $recipe->id)->with('success', 'Przepis dodany!');
+    }
+
     public function edit(Recipe $recipe)
     {
+        $categories = Category::all();
         $ingredients = Ingredient::where('is_visible', true)->get();
+        $dietTypes = DietType::all();
 
         $recipeIngredients = $recipe->ingredients->map(function ($item) {
             return [
@@ -28,7 +93,7 @@ class RecipeController extends Controller
         })->toArray();
 
 
-        return view('admin.recipes.edit', compact('recipe', 'ingredients', 'recipeIngredients'));
+        return view('admin.recipes.edit', compact('recipe', 'categories', 'dietTypes', 'ingredients', 'recipeIngredients'));
     }
 
     public function update(Request $request, Recipe $recipe)
@@ -36,16 +101,33 @@ class RecipeController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
+            'ingredients' => ['required', 'array', 'unique_ingredients'],
+            'ingredients.*.ingredient_id' => 'required|exists:ingredients,id',
+            'ingredients.*.quantity' => 'required|string|max:50',
+            'ingredients.*.unit' => 'required|string|max:20',
             'instructions' => 'required|string',
             'preparation_time' => 'required|integer|min:1',
-            'is_visible' => 'required|boolean',
-            'ingredients' => 'array',
-            'ingredients.*.ingredient_id' => 'required|exists:ingredients,id',
-            'ingredients.*.quantity' => 'required|string',
-            'ingredients.*.unit' => 'required|string',
+            'image' => 'nullable|image|max:2048',
+            'categories' => 'required|array',
+            'categories.*' => 'exists:categories,id',
+            'diet_types' => 'required|array',
+            'diet_types.*' => 'exists:diet_types,id',
+            'is_visible' => 'required|boolean'
         ]);
 
-        // Zapisujemy pola główne
+        // Obsługa zdjęcia
+        if ($request->hasFile('image')) {
+            // Usuń stare zdjęcie jeśli istnieje
+            if ($recipe->image && file_exists(public_path($recipe->image))) {
+                unlink(public_path($recipe->image));
+            }
+
+            // Zapisz nowe zdjęcie
+            $imagePath = $request->file('image')->store('image/recipes', 'public');
+            $recipe->image = '/storage/' . $imagePath;
+        }
+
+        // Aktualizacja pól
         $recipe->update([
             'title' => $validated['title'],
             'description' => $validated['description'],
@@ -70,6 +152,10 @@ class RecipeController extends Controller
 
         // Synchronizujemy relację
         $recipe->ingredients()->sync($pivotData);
+
+        // Relacje wiele-do-wielu
+        $recipe->categories()->sync($validated['categories']);
+        $recipe->dietTypes()->sync($validated['diet_types']);
 
         return redirect()
             ->route('admin.recipes.index')

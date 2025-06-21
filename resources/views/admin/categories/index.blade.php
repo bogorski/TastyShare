@@ -3,7 +3,10 @@
 @admin
 @section('content')
 <div class="container">
-    <h1>Kategorie</h1>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Kategorie</h1>
+        <a href="{{ route('admin.categories.create') }}" class="btn btn-success">Dodaj kategorię</a>
+    </div>
     <table class="table table-striped">
         <thead>
             <tr>

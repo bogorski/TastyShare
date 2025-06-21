@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\RecipeController as AdminRecipeController;
 use App\Http\Controllers\Admin\CommentController as AdminCommentController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\IngredientController as AdminIngredientController;
+use App\Http\Controllers\Admin\DietTypeController as AdminDietTypeController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -80,7 +81,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('users', UserController::class)->only(['index', 'edit', 'update', 'destroy']);
         Route::resource('recipes', AdminRecipeController::class)->only(['index', 'edit', 'update', 'destroy']);
         Route::resource('comments', AdminCommentController::class)->only(['index', 'edit', 'update', 'destroy']);
-        Route::resource('categories', AdminCategoryController::class)->only(['index', 'edit', 'update', 'destroy']);
-        Route::resource('ingredients', AdminIngredientController::class)->only(['index', 'edit', 'update', 'destroy']);
+        Route::resource('categories', AdminCategoryController::class);
+        Route::resource('dietTypes', AdminDietTypeController::class);
+        Route::resource('ingredients', AdminIngredientController::class);
     });
 });

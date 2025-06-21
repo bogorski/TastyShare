@@ -164,13 +164,6 @@ class RecipeController extends Controller
         return redirect()->route('recipes.show', $recipe->id)->with('success', 'Przepis dodany!');
     }
 
-    public function myRecipes()
-    {
-        $recipes = auth()->user()->recipes()->with(['categories', 'dietTypes'])->latest()->get();
-
-        return view('recipes.mine', compact('recipes'));
-    }
-
     public function edit(Recipe $recipe)
     {
         // Sprawdzenie, czy użytkownik jest autorem przepisu
@@ -271,5 +264,17 @@ class RecipeController extends Controller
 
         return redirect()->route('recipes.mine')
             ->with('success', 'Przepis został ukryty.');
+    }
+
+    public function myRecipes()
+    {
+        $recipes = auth()->user()
+            ->recipes()
+            ->where('is_visible', true)
+            ->with(['categories', 'dietTypes'])
+            ->latest()
+            ->get();
+
+        return view('recipes.mine', compact('recipes'));
     }
 }

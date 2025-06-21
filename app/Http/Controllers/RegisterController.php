@@ -10,13 +10,11 @@ use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
-    // Pokaż formularz rejestracji
     public function show()
     {
         return view('auth.register');
     }
 
-    // Obsłuż rejestrację
     public function register(Request $request)
     {
         $request->validate([
@@ -32,11 +30,9 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // Zaloguj użytkownika (opcjonalnie)
+        // Zaloguj użytkownika
         Auth::login($user);
 
-
-        // Przekieruj gdzie chcesz, np. na home
         return redirect()->route('home')->with('success', 'Rejestracja zakończona sukcesem!');
     }
 }
