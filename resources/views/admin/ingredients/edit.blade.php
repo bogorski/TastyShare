@@ -2,18 +2,18 @@
 
 @admin
 @section('content')
-<div class="container">
-    <h1>Edytuj składnik</h1>
-
-    @if(session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-
-    <form action="{{ route('admin.ingredients.update', $ingredient->id) }}" method="POST">
+<div class="container my-5 d-flex justify-content-center">
+    <form action="{{ route('admin.ingredients.update', $ingredient->id) }}" method="POST" class="shadow-sm p-4 bg-white rounded custom-form">
         @csrf
         @method('PUT')
 
-        <div class="mb-3">
+        <h1 class="mb-4">Edytuj składnik</h1>
+
+        @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+
+        <div class="mb-4">
             <label for="name" class="form-label">Nazwa składnika</label>
             <input
                 type="text"
@@ -27,7 +27,7 @@
             @enderror
         </div>
 
-        <div class="form-check mb-3">
+        <div class="form-check mb-4">
             <input type="hidden" name="is_visible" value="0">
             <input
                 type="checkbox"
@@ -39,8 +39,10 @@
             <label for="is_visible" class="form-check-label">Czy widoczny</label>
         </div>
 
-        <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
-        <a href="{{ route('admin.ingredients.index') }}" class="btn btn-secondary">Anuluj</a>
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+            <a href="{{ route('admin.ingredients.index') }}" class="btn btn-secondary">Anuluj</a>
+        </div>
     </form>
 </div>
 @endsection

@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('ingredient_recipe', function (Blueprint $table) {
             $table->foreignId('recipe_id')->constrained()->onDelete('cascade');
             $table->foreignId('ingredient_id')->constrained()->onDelete('cascade');
-            $table->decimal('quantity', 10, 2); // Ilość dla danego przepisu
-            $table->string('unit');      // Jednostka dla danego przepisu
+            $table->decimal('quantity', 10, 2);
+            $table->string('unit');
             $table->timestamps();
             $table->boolean('is_visible')->default(true);
 
-            $table->primary(['recipe_id', 'ingredient_id']); // unikalne pary
+            $table->primary(['recipe_id', 'ingredient_id']);
         });
     }
 

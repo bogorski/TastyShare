@@ -35,7 +35,6 @@ class IngredientController extends Controller
             'is_visible' => 'boolean',
         ]);
 
-        // Ustaw domyślnie is_visible na true, jeśli nie podano
         $data['is_visible'] = $data['is_visible'] ?? true;
 
         Ingredient::create($data);
@@ -59,8 +58,6 @@ class IngredientController extends Controller
 
         return redirect()->route('admin.ingredients.index')->with('success', 'Składnik został zaktualizowany.');
     }
-
-
 
     public function destroy($id)
     {

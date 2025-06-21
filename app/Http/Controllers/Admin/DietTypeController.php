@@ -37,7 +37,6 @@ class DietTypeController extends Controller
             $data['image'] = $path;
         }
 
-        // Ustaw domyślnie is_visible na true, jeśli nie podano
         $data['is_visible'] = $data['is_visible'] ?? true;
 
         DietType::create($data);

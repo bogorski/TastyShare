@@ -1,21 +1,26 @@
 :root {
-    --primary-color: #a9746e; /* ciepły brąz */
-    --secondary-color: #d9b4aa; /* łagodny róż */
-    --highlight-color: #a898d1; /* pastelowy fiolet */
-    --background-color: #faf3e0; /* kremowe tło */
-    --card-bg: #ffffff; /* białe karty */
-    --text-color: #6b4c3b; /* ciemny brąz */
-    --text-muted: #8c7a75; /* zgaszony brąz */
+    --primary-color: #a9746e;
+    --secondary-color: #d9b4aa;
+    --danger-color: #b75c55;
+    --success-color: #87b88f;
+    --highlight-color: #c39ea0;
+    --background-color: #faf3e0;
+    --card-bg: #ffffff;
+    --text-color: #6b4c3b;
+    --text-muted: #8c7a75;
 }
 
-/* Body - kremowe tło i ciemny tekst */
 body {
     background-color: var(--background-color);
     color: var(--text-color);
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Karty */
+footer {
+    color: var(--text-muted);
+    font-style: italic;
+}
+
 .card {
     background-color: var(--card-bg);
     border-radius: 12px;
@@ -28,7 +33,6 @@ body {
     box-shadow: 0 10px 30px rgba(169, 145, 148, 0.3);
 }
 
-/* Obraz w karcie */
 .card-img,
 .card-img-top {
     border-top-left-radius: 12px;
@@ -44,7 +48,6 @@ body {
     filter: brightness(1.05);
 }
 
-/* Tytuły */
 .card-title {
     color: var(--primary-color);
     font-weight: 700;
@@ -56,27 +59,20 @@ body {
     cursor: pointer;
 }
 
-/* Tekst pomocniczy */
+.card-text {
+    font-style: italic;
+    color: var(--text-muted);
+}
+
 .text-muted {
     color: var(--text-muted) !important;
     font-style: italic;
 }
 
-/* Przyciski */
-.btn-primary {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-    color: #fff;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+.card.no-transition:hover {
+    transform: none !important;
 }
 
-.btn-primary:hover {
-    background-color: var(--highlight-color);
-    border-color: var(--highlight-color);
-    color: var(--card-bg);
-}
-
-/* Nakładka na obraz w karuzeli */
 .card-img-overlay {
     background: rgba(169, 116, 110, 0.75);
     display: flex;
@@ -91,13 +87,6 @@ body {
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
 }
 
-/* Komentarze */
-.card-text {
-    font-style: italic;
-    color: var(--text-muted);
-}
-
-/* Przyciski nawigacji karuzeli */
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
     filter: drop-shadow(0 0 3px rgba(169, 116, 110, 0.7));
@@ -105,7 +94,6 @@ body {
     height: 2.5rem;
 }
 
-/* Placeholder dla brakujących zdjęć */
 .bg-secondary {
     background-color: var(--primary-color) !important;
     color: var(--card-bg) !important;
@@ -116,13 +104,119 @@ body {
     font-size: 1.1rem;
 }
 
-/* Navbar style */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--highlight-color);
+    border-color: var(--highlight-color);
+    color: var(--card-bg);
+}
+
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    background-color: transparent;
+    transition: background-color 0.3s ease, color 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.btn-success {
+    background-color: var(--success-color);
+    border-color: var(--success-color);
+    color: #fff;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-success:hover {
+    background-color: #76a87f;
+    border-color: #76a87f;
+    color: #fff;
+}
+
+.btn-outline-success {
+    color: var(--success-color);
+    border-color: var(--success-color);
+    background-color: transparent;
+    transition: background-color 0.3s ease, color 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.btn-outline-success:hover {
+    background-color: var(--success-color);
+    color: #fff;
+    border-color: var(--success-color);
+}
+
+.btn-danger {
+    background-color: var(--danger-color);
+    border-color: var(--danger-color);
+    color: #fff;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-danger:hover {
+    background-color: #9c4e48;
+    border-color: #9c4e48;
+    color: #fff;
+}
+
+.btn-outline-danger {
+    color: var(--danger-color);
+    border-color: var(--danger-color);
+    background-color: transparent;
+    transition: background-color 0.3s ease, color 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.btn-outline-danger:hover {
+    background-color: var(--danger-color);
+    color: #fff;
+    border-color: var(--danger-color);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: #fff;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #c49b94;
+    border-color: #c49b94;
+    color: #fff;
+}
+
+.btn-outline-secondary {
+    color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    background-color: transparent;
+    transition: background-color 0.3s ease, color 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.btn-outline-secondary:hover {
+    background-color: var(--secondary-color);
+    color: #fff;
+    border-color: var(--secondary-color);
+}
+
 .navbar {
     background-color: var(--card-bg) !important;
     border-bottom: 2px solid var(--primary-color);
 }
 
-/* Linki w navbar */
 .navbar .nav-link {
     color: var(--primary-color);
     font-weight: 600;
@@ -133,15 +227,36 @@ body {
     color: var(--highlight-color);
 }
 
-/* Alert success */
+.navbar-brand {
+    font-weight: bold;
+    color: var(--primary-color) !important;
+    font-size: 1.5rem;
+}
+
+.navbar-brand:hover {
+    color: var(--highlight-color) !important;
+}
+
 .alert-success {
     background-color: var(--secondary-color);
     color: var(--text-color);
     border: none;
 }
 
-/* Stopka */
-footer {
-    color: var(--text-muted);
-    font-style: italic;
+.custom-card-height {
+    height: 250px;
+}
+
+.dark-overlay {
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.card-thumb {
+    height: 180px;
+    object-fit: cover;
+    width: 100%;
+}
+.custom-form {
+    max-width: 600px;
+    width: 100%;
 }

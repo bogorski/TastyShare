@@ -61,7 +61,6 @@ class CommentController extends Controller
 
         $recipeId = $comment->recipe_id;
 
-        // Ukrywamy komentarz zamiast usuwać
         $comment->is_visible = false;
         $comment->save();
 

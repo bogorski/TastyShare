@@ -19,12 +19,11 @@ class HomeController extends Controller
             ->get();
 
         $popularRecipes = Recipe::withAvg('ratings', 'rating')
-            //comments_avg_rating alias, który Laravel automatycznie tworzy
             ->havingNotNull('ratings_avg_rating')
             ->orderByDesc('ratings_avg_rating')
             ->take(3)
             ->get();
-        $categories = Category::all(); // pobiera wszystkie kategorie
+        $categories = Category::all();
 
         return view('home.index', compact('categories', 'latestRecipes', 'latestComments', 'popularRecipes'));
     }

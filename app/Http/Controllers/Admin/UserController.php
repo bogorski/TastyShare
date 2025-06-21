@@ -28,7 +28,6 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        // Możesz dodać zabezpieczenia, np. nie pozwalać edytować siebie lub innych adminów
         return view('admin.users.edit', compact('user'));
     }
 

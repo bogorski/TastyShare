@@ -4,7 +4,7 @@
 @section('content')
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h1>Przepisy</h1>
+        <h1 class="fw-bold">Przepisy</h1>
         <form action="{{ route('admin.recipes.index') }}" method="GET" class="d-flex gap-2 align-items-center mb-3" style="flex-wrap: wrap;">
             <select name="filter" class="form-select w-auto">
                 <option value="all" {{ request('filter') == 'all' ? 'selected' : '' }}>Wszystko</option>

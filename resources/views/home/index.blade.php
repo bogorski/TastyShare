@@ -1,11 +1,8 @@
 @extends('layouts.app')
-
 @section('content')
+<div class="container my-5">
 
-<div class="container my-5 moje">
-
-    <h2 class="mb-4 text-center">Najnowsze przepisy</h2>
-
+    <h2 class="mb-4 fw-bold text-center">Najnowsze przepisy</h2>
     <div id="basicCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="7000">
         <div class="carousel-inner">
             @foreach($latestRecipes->chunk(3) as $index => $recipeChunk)
@@ -14,16 +11,15 @@
                     @foreach($recipeChunk as $recipe)
                     <div class="col-12 col-md-4">
                         <a href="{{ route('recipes.show', $recipe->id) }}" class="text-decoration-none">
-                            <div class="card shadow-sm h-100 text-white position-relative overflow-hidden" style="height: 250px;">
+                            <div class="card shadow-sm h-100 text-white position-relative overflow-hidden custom-card-height">
                                 @if($recipe->image)
-                                <img src="{{ $recipe->image }}" class="card-img" alt="{{ $recipe->title }}" style="object-fit: cover; height: 250px;">
+                                <img src="{{ $recipe->image }}" class="card-img custom-card-height" alt="{{ $recipe->title }}">
                                 @else
-                                <div class="bg-secondary d-flex align-items-center justify-content-center" style="height: 250px;">
+                                <div class="bg-secondary d-flex align-items-center justify-content-center custom-card-height">
                                     <span class="text-white fs-4">Brak zdjęcia</span>
                                 </div>
                                 @endif
-                                <div class="card-img-overlay d-flex justify-content-center align-items-center"
-                                    style="background: rgba(0, 0, 0, 0.45);">
+                                <div class="card-img-overlay d-flex justify-content-center align-items-center dark-overlay">
                                     <h5 class="card-title text-center fw-bold text-truncate" title="{{ $recipe->title }}">
                                         {{ $recipe->title }}
                                     </h5>
@@ -36,12 +32,10 @@
             </div>
             @endforeach
         </div>
-
         <button class="carousel-control-prev" type="button" data-bs-target="#basicCarousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Poprzedni</span>
         </button>
-
         <button class="carousel-control-next" type="button" data-bs-target="#basicCarousel" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Następny</span>
@@ -49,17 +43,15 @@
     </div>
 
     <hr class="my-5">
-
-    <h1 class="mb-4 text-center">Popularne przepisy</h1>
-
+    <h2 class="mb-4 fw-bold text-center">Popularne przepisy</h2>
     <div class="row g-4">
         @foreach($popularRecipes as $recipe)
         <div class="col-12 col-md-4">
             <div class="card shadow-sm h-100">
                 @if($recipe->image)
-                <img src="{{ $recipe->image }}" alt="{{ $recipe->title }}" class="card-img-top" style="height: 180px; object-fit: cover;">
+                <img src="{{ $recipe->image }}" alt="{{ $recipe->title }}" class="card-img-top card-thumb">
                 @else
-                <img src="{{ asset('image/placeholder.png') }}" alt="Brak zdjęcia" class="card-img-top" style="height: 180px; object-fit: cover;">
+                <img src="{{ asset('image/placeholder.png') }}" alt="Brak zdjęcia" class="card-img-top card-thumb">
                 @endif
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title text-truncate" title="{{ $recipe->title }}">{{ $recipe->title }}</h5>
@@ -75,17 +67,15 @@
     </div>
 
     <hr class="my-5">
-
-    <h2 class="mb-4 text-center">Najnowsze komentarze</h2>
-
+    <h2 class="mb-4 fw-bold text-center">Najnowsze komentarze</h2>
     <div class="row g-4">
         @foreach($latestComments as $comment)
         <div class="col-12 col-md-4">
             <div class="card shadow-sm h-100">
                 @if($comment->recipe->image)
-                <img src="{{ $comment->recipe->image }}" class="card-img-top" alt="{{ $comment->recipe->title }}" style="height: 180px; object-fit: cover;">
+                <img src="{{ $comment->recipe->image }}" class="card-img-top card-thumb" alt="{{ $comment->recipe->title }}">
                 @else
-                <div class="bg-secondary" style="height: 180px;"></div>
+                <div class="bg-secondary card-thumb"></div>
                 @endif
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">{{ $comment->user->name ?? 'Anonim' }}</h5>
@@ -97,7 +87,5 @@
         </div>
         @endforeach
     </div>
-
 </div>
-
 @endsection

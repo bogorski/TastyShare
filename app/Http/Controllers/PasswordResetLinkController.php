@@ -12,12 +12,10 @@ class PasswordResetLinkController extends Controller
         return view('auth.forgot-password');
     }
 
-    // Wyślij e-mail z linkiem resetu
     public function store(Request $request)
     {
         $request->validate(['email' => 'required|email']);
 
-        // Wyślij link do resetu hasła na podany email
         $status = Password::sendResetLink(
             $request->only('email')
         );

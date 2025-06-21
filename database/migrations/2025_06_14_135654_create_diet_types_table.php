@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('diet_types', function (Blueprint $table) {
-            $table->id(); // Unikalny identyfikator typu diety
-            $table->string('name')->unique(); // Nazwa typu diety (np. "Wegetariańska", "Bezglutenowa")
+            $table->id();
+            $table->string('name')->unique();
             $table->string('image')->nullable();
             $table->boolean('is_visible')->default(true);
-            $table->timestamps(); // Daty utworzenia i ostatniej aktualizacji
+            $table->timestamps();
         });
     }
 

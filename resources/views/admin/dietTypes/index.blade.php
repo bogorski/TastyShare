@@ -4,7 +4,7 @@
 @section('content')
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h1>Rodzeje diet</h1>
+        <h1 class="fw-bold">Rodzaje diet</h1>
         <a href="{{ route('admin.dietTypes.create') }}" class="btn btn-success">Dodaj dietę</a>
     </div>
     <form action="{{ route('admin.dietTypes.index') }}" method="GET" class="mb-3">

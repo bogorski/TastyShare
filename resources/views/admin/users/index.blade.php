@@ -4,7 +4,7 @@
 @section('content')
 <div class="container">
 
-    <h1>Użytkownicy</h1>
+    <h1 class="fw-bold">Użytkownicy</h1>
     <form action="{{ route('admin.users.index') }}" method="GET" class="mb-3">
         <div class="input-group">
             <input type="text" name="search" class="form-control" placeholder="Szukaj użytkownika..."
@@ -47,7 +47,6 @@
             @endforeach
         </tbody>
     </table>
-    <!-- paginacja -->
     {{ $users->links() }}
 </div>
 @endsection

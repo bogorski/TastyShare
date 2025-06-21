@@ -11,7 +11,6 @@ use App\Http\Controllers\Controller;
 
 class NewPasswordController extends Controller
 {
-    // Pokaż formularz resetu hasła (z tokenem)
     public function create(Request $request, $token)
     {
         return view('auth.reset-password', [
@@ -20,7 +19,6 @@ class NewPasswordController extends Controller
         ]);
     }
 
-    // Zapisz nowe hasło
     public function store(Request $request)
     {
         $request->validate([

@@ -1,35 +1,31 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h1>Składniki</h1>
-
+<div class="container my-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold">Wszystkie składniki</h1>
+        <p class="text-muted">Przeglądaj dostępne składniki i znajdź przepisy w których występują</p>
         @auth
-        <a href="{{ route('ingredients.create') }}" class="btn btn-success">Dodaj składnik</a>
+        <a href="{{ route('ingredients.create') }}" class="btn btn-success mt-2">Dodaj składnik</a>
         @endauth
     </div>
 
-    <form action="{{ route('ingredients.index') }}" method="GET" class="mb-3">
-        <div class="input-group">
-            <input type="text" name="search" value="{{ old('search', $search) }}" class="form-control"
-                placeholder="Wyszukaj składnik...">
-            <button type="submit" class="btn btn-primary">Szukaj</button>
-        </div>
-    </form>
-
     @if ($ingredients->isEmpty())
-    <div class="alert alert-info">Brak dostępnych składników.</div>
+    <div class="alert alert-info text-center">Brak dostępnych składników.</div>
     @else
-    <ul class="list-group">
+    <div class="row g-4">
         @foreach ($ingredients as $ingredient)
-        <li class="list-group-item">
-            <a href="{{ route('ingredients.show', $ingredient->id) }}">
-                {{ $ingredient->name }}
+        <div class="col-12 col-sm-6 col-lg-2">
+            <a href="{{ route('ingredients.show', $ingredient->id) }}" class="text-decoration-none text-dark h-100 d-block">
+                <div class="card h-100 shadow-sm border-0 hover-shadow transition">
+                    <div class="card-body d-flex flex-column justify-content-center align-items-center text-center">
+                        <h5 class="card-title mb-0">{{ $ingredient->name }}</h5>
+                    </div>
+                </div>
             </a>
-        </li>
+        </div>
         @endforeach
-    </ul>
+    </div>
     @endif
 </div>
 @endsection

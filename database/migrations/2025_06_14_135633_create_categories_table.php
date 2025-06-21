@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('categories', function (Blueprint $table) {
-            $table->id(); // Unikalny identyfikator kategorii
-            $table->string('name')->unique(); // Nazwa kategorii (np. "Śniadanie", "Deser")
+            $table->id();
+            $table->string('name')->unique();
             $table->string('image')->nullable();
             $table->boolean('is_visible')->default(true);
-            $table->timestamps(); // Daty utworzenia i ostatniej aktualizacji
+            $table->timestamps();
         });
     }
 

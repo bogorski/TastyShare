@@ -71,7 +71,7 @@ class RecipeController extends Controller
         }
 
         if ($sort === 'average_rating') {
-            // sortowanie wg średniej oceny, NULLy na końcu
+            // sortowanie wg średniej oceny, NULL na końcu
             $query->orderByRaw('ratings_avg_rating IS NULL ASC')
                 ->orderBy('ratings_avg_rating', $order);
         } else {
@@ -112,7 +112,6 @@ class RecipeController extends Controller
         return view('recipes.create', compact('categories', 'dietTypes', 'ingredients'));
     }
 
-    // Zapisz przepis do bazy
     public function store(Request $request)
     {
 
@@ -128,7 +127,7 @@ class RecipeController extends Controller
             'image' => 'nullable|image|max:2048',
             'categories' => 'required|array',
             'categories.*' => 'exists:categories,id',
-            'diet_types' => 'nullable|array',
+            'diet_types' => 'required|array',
             'diet_types.*' => 'exists:diet_types,id',
         ]);
 
@@ -145,8 +144,6 @@ class RecipeController extends Controller
         $recipe->image = $imagePath ? '/storage/' . $imagePath : null;
         $recipe->user_id = auth()->id();
         $recipe->save();
-
-        // Podłącz kategorie i typy diety
         $recipe->categories()->sync($validated['categories']);
         $recipe->dietTypes()->sync($validated['diet_types']);
 
@@ -166,7 +163,6 @@ class RecipeController extends Controller
 
     public function edit(Recipe $recipe)
     {
-        // Sprawdzenie, czy użytkownik jest autorem przepisu
         if (auth()->id() !== $recipe->user_id) {
             abort(403, 'To działanie jest niedozwolone.');
         }
@@ -220,7 +216,6 @@ class RecipeController extends Controller
             $recipe->image = '/storage/' . $imagePath;
         }
 
-        // Aktualizacja pól
         $recipe->update([
             'title' => $validated['title'],
             'description' => $validated['description'],
@@ -243,8 +238,6 @@ class RecipeController extends Controller
         }
 
         $recipe->ingredients()->sync($pivotData);
-
-        // Relacje wiele-do-wielu
         $recipe->categories()->sync($validated['categories']);
         $recipe->dietTypes()->sync($validated['diet_types']);
 
@@ -253,12 +246,10 @@ class RecipeController extends Controller
 
     public function destroy(Recipe $recipe)
     {
-        // Sprawdzenie, czy użytkownik jest autorem
         if (auth()->id() !== $recipe->user_id) {
             abort(403, 'To działanie jest niedozwolone.');
         }
 
-        // Ustaw is_visible na false
         $recipe->is_visible = false;
         $recipe->save();
 

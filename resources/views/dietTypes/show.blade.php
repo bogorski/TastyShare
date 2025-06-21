@@ -1,30 +1,39 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h1 class="mb-4">{{ $dietType->name }}</h1>
-
-    @if($dietType->image_url)
-    <img src="{{ $dietType->image_url }}" alt="{{ $dietType->name }}" class="img-fluid mb-4" style="max-height: 300px; object-fit: cover;">
-    @endif
-
-    <h3>Przepisy w diecie {{ $dietType->name }}</h3>
+<div class="container my-5">
+    <h1 class="fw-bold mb-5 text-center">{{ $dietType->name }}</h1>
 
     @if($dietType->recipes->isEmpty())
-    <p>Brak przepisów w tym typie diety.</p>
+    <p class="text-center text-muted">Brak przepisów w tym typie diety.</p>
     @else
-    <div class="row">
+    <div class="row g-4">
         @foreach($dietType->recipes as $recipe)
-        <div class="col-12 col-md-4 mb-3">
-            <div class="card h-100">
-                @if($recipe->image_url)
-                <img src="{{ $recipe->image_url }}" class="card-img-top" alt="{{ $recipe->title }}" style="height: 180px; object-fit: cover;">
-                @endif
-                <div class="card-body">
-                    <h5 class="card-title">{{ $recipe->title }}</h5>
-                    <a href="{{ route('recipes.show', $recipe->id) }}" class="btn btn-primary">Zobacz przepis</a>
+        <div class="col-12 col-sm-6 col-lg-4">
+            <a href="{{ route('recipes.show', $recipe->id) }}" class="text-decoration-none text-dark d-block h-100">
+                <div class="card h-100 shadow-sm border-0 rounded hover-shadow transition">
+                    @if($recipe->image)
+                    <img src="{{ $recipe->image }}" alt="{{ $recipe->title }}" class="card-img-top">
+                    @endif
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ $recipe->title }}</h5>
+
+                        <p class="mb-1">
+                            <strong>Średnia ocena:</strong>
+                            @php
+                            $avgRating = $recipe->ratings_avg_rating ?? null;
+                            @endphp
+                            {{ $avgRating ? number_format($avgRating, 1) . ' ★' : 'Brak ocen' }}
+                        </p>
+
+                        <p class="mb-1"><strong>Czas przygotowania:</strong> {{ $recipe->preparation_time }} minut</p>
+
+                        <p class="card-text text-truncate">
+                            <strong>Opis:</strong> {{ $recipe->description }}
+                        </p>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
         @endforeach
     </div>

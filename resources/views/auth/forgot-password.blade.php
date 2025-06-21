@@ -1,31 +1,36 @@
 @extends('layouts.app')
 
-@section('title', 'Zapomniałeś hasła?')
-
 @section('content')
-<div class="container mx-auto max-w-md mt-10">
-    <h2 class="text-2xl font-bold mb-4">Resetuj hasło</h2>
+<div class="container my-5">
+    <div class="border rounded bg-white p-4 w-25 mx-auto shadow-sm">
+        <h2 class="mb-4 text-center">Resetuj hasło</h2>
 
-    @if (session('status'))
-    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-        {{ session('status') }}
-    </div>
-    @endif
-
-    <form method="POST" action="{{ route('password.email') }}">
-        @csrf
-
-        <div class="mb-4">
-            <label for="email" class="block text-sm font-medium">Adres e-mail</label>
-            <input type="email" name="email" id="email" required autofocus class="w-full px-3 py-2 border rounded" value="{{ old('email') }}">
-            @error('email')
-            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-            @enderror
+        @if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
         </div>
+        @endif
 
-        <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-            Wyślij link resetujący
-        </button>
-    </form>
+        <form method="POST" action="{{ route('password.email') }}">
+            @csrf
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Adres email</label>
+                <input
+                    type="email"
+                    class="form-control @error('email') is-invalid @enderror"
+                    id="email"
+                    name="email"
+                    value="{{ old('email') }}"
+                    required
+                    autofocus>
+                @error('email')
+                <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Wyślij link resetujący</button>
+        </form>
+    </div>
 </div>
 @endsection

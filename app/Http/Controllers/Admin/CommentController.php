@@ -42,8 +42,6 @@ class CommentController extends Controller
         return redirect()->route('admin.comments.index')->with('success', 'Komentarz zaktualizowany.');
     }
 
-
-
     public function destroy($id)
     {
         $comment = Comment::findOrFail($id);

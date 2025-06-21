@@ -9,7 +9,7 @@ class LoginController extends Controller
 {
     public function show()
     {
-        return view('auth.login'); // widok formularza logowania
+        return view('auth.login');
     }
 
     public function login(Request $request)
@@ -22,7 +22,7 @@ class LoginController extends Controller
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
 
-            return redirect()->intended(route('home')); // lub inna strona po zalogowaniu
+            return redirect()->intended(route('home'));
         }
 
         return back()->withErrors([

@@ -10,9 +10,6 @@ class AdminController extends Controller
 {
     public function index()
     {
-        // if (!auth()->check() || !auth()->user()->is_admin) {
-        //     abort(403, 'Brak dostępu');
-        // }
         return view('admin.dashboard');
     }
 }

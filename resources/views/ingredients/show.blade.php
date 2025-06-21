@@ -1,18 +1,49 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>Przepisy ze składnikiem: {{ $ingredient->name }}</h1>
+<div class="container my-5">
+    <h1 class="fw-bold mb-1 text-center">Przepisy ze składnikiem</h1>
+    <h2 class="text-center mb-5">{{ $ingredient->name }}</h2>
 
-@if($recipes->isEmpty())
-<p>Brak przepisów z tym składnikiem.</p>
-@else
-@foreach ($recipes as $recipe)
-<div>
-    <h3><a href="{{ route('recipes.show', $recipe->id) }}">{{ $recipe->title }}</a></h3>
-    <p>Składniki: {{ $recipe->ingredients->pluck('name')->join(', ') }}</p>
+    @if($recipes->isEmpty())
+    <p class="text-center text-muted">Brak przepisów z tym składnikiem.</p>
+    @else
+    <div class="row g-4">
+        @foreach ($recipes as $recipe)
+        <div class="col-12 col-sm-6 col-lg-4">
+            <a href="{{ route('recipes.show', $recipe->id) }}" class="text-decoration-none text-dark d-block h-100">
+                <div class="card h-100 shadow-sm border-0 rounded hover-shadow transition">
+                    @if($recipe->image)
+                    <img src="{{ $recipe->image }}" alt="{{ $recipe->title }}" class="card-img-top">
+                    @endif
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ $recipe->title }}</h5>
+
+                        <p class="mb-1">
+                            <strong>Średnia ocena:</strong>
+                            @php
+                            $avgRating = $recipe->ratings_avg_rating ?? null;
+                            @endphp
+                            {{ $avgRating ? number_format($avgRating, 1) . ' ★' : 'Brak ocen' }}
+                        </p>
+
+                        <p class="mb-1"><strong>Czas przygotowania:</strong> {{ $recipe->preparation_time }} minut</p>
+
+                        <p class="mb-1"><strong>Składniki:</strong> {{ $recipe->ingredients->pluck('name')->join(', ') }}</p>
+
+                        <p class="card-text text-truncate">
+                            <strong>Opis:</strong> {{ $recipe->description }}
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        @endforeach
+    </div>
+
+    <div class="mt-4">
+        {{ $recipes->links() }}
+    </div>
+    @endif
 </div>
-@endforeach
-
-{{ $recipes->links() }}
-@endif
 @endsection

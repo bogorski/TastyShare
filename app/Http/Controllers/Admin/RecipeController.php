@@ -68,7 +68,6 @@ class RecipeController extends Controller
         return view('recipes.create', compact('categories', 'dietTypes', 'ingredients'));
     }
 
-    // Zapisz przepis do bazy
     public function store(Request $request)
     {
 
@@ -102,10 +101,8 @@ class RecipeController extends Controller
         $recipe->user_id = auth()->id();
         $recipe->save();
 
-        // Podłącz kategorie i typy diety
         $recipe->categories()->sync($validated['categories']);
         $recipe->dietTypes()->sync($validated['diet_types']);
-
 
         foreach ($validated['ingredients'] as $ingredient) {
             $recipe->ingredients()->attach($ingredient['ingredient_id'], [
@@ -169,7 +166,6 @@ class RecipeController extends Controller
             $recipe->image = '/storage/' . $imagePath;
         }
 
-        // Aktualizacja pól
         $recipe->update([
             'title' => $validated['title'],
             'description' => $validated['description'],
@@ -178,7 +174,6 @@ class RecipeController extends Controller
             'is_visible' => $validated['is_visible'],
         ]);
 
-        // Przygotowujemy dane do synchronizacji
         $pivotData = [];
         if (!empty($validated['ingredients'])) {
             foreach ($validated['ingredients'] as $ingredient) {
@@ -192,10 +187,7 @@ class RecipeController extends Controller
             }
         }
 
-        // Synchronizujemy relację
         $recipe->ingredients()->sync($pivotData);
-
-        // Relacje wiele-do-wielu
         $recipe->categories()->sync($validated['categories']);
         $recipe->dietTypes()->sync($validated['diet_types']);
 

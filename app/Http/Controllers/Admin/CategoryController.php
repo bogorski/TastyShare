@@ -39,7 +39,6 @@ class CategoryController extends Controller
             $data['image'] = $path;
         }
 
-        // Ustaw domyślnie is_visible na true, jeśli nie podano
         $data['is_visible'] = $data['is_visible'] ?? true;
 
         Category::create($data);
@@ -61,7 +60,7 @@ class CategoryController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('categories', 'public');
+            $path = $request->file('image')->store('image/categories', 'public');
             $data['image'] = $path;
         }
 
